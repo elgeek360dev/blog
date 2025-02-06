@@ -83,27 +83,41 @@ const posts = (await getCollection('blog')).sort(
 					font-size: 1.563em;
 				}
 			}
+			.no-posts {
+				text-align: center;
+				color: rgb(var(--gray));
+				font-size: 1.5rem;
+				margin: 0;
+				line-height: 1;
+				font-style: italic;
+				min-height: 50vh;
+			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
 			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									<img width={720} height={360} src={post.data.heroImage} alt="" />
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+				{posts.filter((post) => post.data.isPublished).length === 0 ? (
+					<p class="no-posts">Aún no hay nada publicado :c</p>
+				) : (
+					<ul>
+						{posts
+							.filter((post) => post.data.isPublished)
+							.map((post) => (
+								<li>
+									<a href={`/blog/${post.id}/`}>
+										<img width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+										<h4 class="title">{post.data.title}</h4>
+										<p class="date">
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				)}
 			</section>
 		</main>
 		<Footer />

@@ -10,6 +10,7 @@ export async function getStaticPaths() {
 		props: post,
 	}));
 }
+
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
@@ -17,5 +18,6 @@ const { Content } = await render(post);
 ---
 
 <BlogPost {...post.data}>
+	<h1>Hola</h1>
 	<Content />
 </BlogPost>
